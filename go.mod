@@ -1,4 +1,4 @@
-module git.jvanvark.nl/joost/urldownloader.git
+module github.com/jjvanvark/urldownloader
 
 go 1.13
 

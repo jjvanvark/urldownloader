@@ -201,12 +201,12 @@ func getFilenameFromUrl(url *url.URL) string {
 
 	var result string
 
-	result = strings.Trim(path.Base(url.Path))
+	result = strings.TrimSpace(path.Base(url.Path))
 
 	if result == "" {
 		return "index.htm"
-	} else {
-		return result
 	}
+
+	return result
 
 }

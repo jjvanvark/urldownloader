@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/google/uuid"
@@ -72,9 +73,7 @@ func DownloadFileFromUrl(url *url.URL, options ...func(*Options) error) (string,
 
 	// id
 
-	if filename, err = getFilenameFromUrl(url); err != nil {
-		return "", err
-	}
+	filename = getFilenameFromUrl(url)
 
 	id = uuid.New().String()
 	path = fmt.Sprintf("%v/%v", defaultOptions.baseFolder, id)
@@ -198,15 +197,16 @@ func copyMax(dst io.Writer, src io.Reader, n int64) error {
 
 }
 
-func getFilenameFromUrl(url *url.URL) (string, error) {
+func getFilenameFromUrl(url *url.URL) string {
 
-	var uri string = url.RequestURI()
-	var result []string
+	var result string
 
-	if result = strings.Split(uri, "/"); len(result) < 1 {
-		return "", ErrUnknownFilename
+	result = strings.Trim(path.Base(url.Path))
+
+	if result == "" {
+		return "index.htm"
+	} else {
+		return result
 	}
-
-	return result[len(result)-1], nil
 
 }
